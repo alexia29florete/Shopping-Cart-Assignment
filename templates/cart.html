@@ -1,0 +1,65 @@
+{% extends "index.html" %}
+{% block title %}Cart · Traveller's Shop{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    {% if items %}
+    <h2 class="cart-title"><i class="fa-solid fa-suitcase-rolling"></i> Cart</h2>
+    <form method="POST">
+        {% for product in items %}
+        <div class="cart-item">
+            
+            <!-- imagine -->
+            <div class="cart-item-image">
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">
+                    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                </a>
+            </div>
+
+            <!-- info produs -->
+            <div class="cart-item-info">
+                <h5>{{ product.name }}</h5>
+                <p class="price">€{{ product.price }}</p>
+                
+                <!-- control cantitate -->
+                <div class="quantity-control">
+                    <a href="{{ url_for('update_cart_item', id=product.id, action='decrease') }}" class="qty-btn">-</a>
+                    <span class="qty">{{ product.qty }}</span>
+                    <a href="{{ url_for('update_cart_item', id=product.id, action='increase') }}" class="qty-btn">+</a>
+                </div>
+                
+                <p class="subtotal">Subtotal: €{{ product.subtotal }}</p>
+
+                <!-- date picker pentru perioada vacantei -->
+                <div class="vacation-dates">
+                    <label for="start_date_{{ product.id }}">Start Date:</label>
+                    <input type="date" id="start_date_{{ product.id }}" name="start_date_{{ product.id }}" required>
+                    
+                    <label for="end_date_{{ product.id }}">End Date:</label>
+                    <input type="date" id="end_date_{{ product.id }}" name="end_date_{{ product.id }}" required>
+                </div>
+            </div>
+
+            <!-- buton stergere -->
+            <div class="cart-item-remove">
+                <a href="{{ url_for('remove_from_cart', id=product.id) }}" class="remove-btn"><i class="fa-solid fa-trash" style="color: #bb0119;"></i></a>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- total + checkout -->
+        <div class="cart-summary">
+            <h4 class="total">Total: €{{ total }}</h4>
+            <button href="{{ url_for('checkout') }}" class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </form>
+    {% else %}
+        <div class="empty-cart">
+        <i class="fa-solid fa-cart-shopping fa-3x"></i>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything yet. Start exploring our amazing trips!</p>
+        <a href="{{ url_for('home') }}" class="btn-explore">Explore Products</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}Login · Traveller's Shop{% endblock %}
+
+{% block content %}
+<div class="contact-login-container">
+    <form method="post" class="contact-form">
+        <h2 class="section-title">Log in</h2>
+        {% if error_msg %}
+            <div style="color: red;">{{ error_msg }}</div>
+        {% endif %}
+        <div class="form_group">
+            <label for="username" class="form_label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="username" id="username">
+        </div>
+        <div class="form_group">
+            <label for="password" class="form_label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="password" id="password">
+        </div>
+        <button type="submit" class="btn-send">Sign in</button>
+    </form>
+</div>
+{% endblock %}

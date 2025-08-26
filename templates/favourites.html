@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% block title %}Favourites · Traveller's Shop{% endblock %}
+
+{% block content %}
+    <div class="fav-container">
+        {% if items %}
+            <div class="fav-header">
+                <h2 class="fav-title"><i class="fa-solid fa-heart" style="color: #d1495b;"></i> Favourite Holidays</h2>
+                <a href="{{ url_for('add_all_to_cart') }}" class="btn-add-all"><i class="fa-solid fa-cart-plus"></i> Add All to Cart</a>
+            </div>
+
+            <div class="fav-grid">
+                {% for item in items %}
+                    <div class="fav-item-card">
+                        <!-- imagine -->
+                        <div class="fav-item-image">
+                            <a href="{{ url_for('product_detail', product_id=item.id) }}">
+                                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                            </a>
+                        </div>
+
+                        <!-- detalii -->
+                        <div class="fav-item-info">
+                            <h4>{{ item.name }}</h4>
+                            <p class="price-fav">€{{ item.price }}</p>
+                        </div>
+
+                        <!-- actiuni -->
+                        <div class="fav-item-actions">
+                            <a href="{{ url_for('add_to_cart_wishlist', product_id=item.id) }}" class="btn-cart-fav"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                            <a href="{{ url_for('remove_from_wishlist', product_id=item.id) }}" class="btn-remove-fav"><i class="fa-solid fa-trash"></i> Remove</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="empty-fav">
+                <i class="fa-regular fa-heart fa-3x" style="color:#d1495b;"></i>
+                <h3>No favourites yet</h3>
+                <p>Save your dream trips here and come back anytime to book them faster!</p>
+                <a href="{{ url_for('home') }}" class="btn-explore-fav">Explore Trips</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

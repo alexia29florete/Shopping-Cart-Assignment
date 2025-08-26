@@ -1,0 +1,68 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Lato&amp;display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        
+        <title>{% block title %}Traveller's Shop{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    </head>
+
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <div class="logo-text">
+                    <h1>Traveller's Shop</h1>
+                    <p>Make the best out every holiday!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav tabs -->
+        <div class="nav_bar">
+            <ul class="nav_list">
+                <li><a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a></li>
+                <li><a class="nav-link-special {% if active_page == 'favourites' %}active{% endif %}" href="{{ url_for('favourites') }}"><i class="fa-regular fa-heart fa-lg"></i></a></li>
+                <li><a class="nav-link {% if active_page == 'view_cart' %}active{% endif %}" href="{{ url_for('view_cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart <span class="badge">{{ cart_size }}</span></a></li>
+                <li><a class="nav-link {% if active_page == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}"> <i class="fa-regular fa-address-book"></i>  Contact</a></li>
+                <li class="spacer_to_right"></li>
+                <li>
+                    {% if session.get('authenticated') %}
+                        <a class="nav-link1"><i class="fa-solid fa-user"></i> Welcome, {{ session.get('username') }} !</a>
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout </a>
+                    {% else %}
+                        <a class="nav-link {% if active_page == 'login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Helping people to create memorable <br>adventures and discover new places!</p>
+            </div>
+            <div class="footer-section">
+                <h4>Visit Us</h4>
+                <p>Calea Victoriei<br>Bucharest, RO</p>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 Traveller's Shop | All rights reserved</p>
+            </div>
+        </div>
+
+
+    </body>
+</html>

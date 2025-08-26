@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% block title %}{{ product.name }} · Traveller's Shop{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="product-detail-card">
+
+        <!-- imagine mare -->
+        <div class="product-detail-image">
+            <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+        </div>
+
+        <!-- informatii -->
+        <div class="product-detail-info">
+            <h2 class="product-title">{{ product.name }}</h2>
+            <p class="product-description">{{ product.info }}</p>
+
+            <div class="product-meta">
+                <p class="product-price">€{{ product.price }}</p>
+            </div>
+
+            <!-- butoane actiuni -->
+            <div class="product-actions">
+                <a href="{{ url_for('add_to_cart') }}?id={{ product.id }}" class="btn btn-cart-detail">
+                    <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                </a>
+
+                <a href="{{ url_for('toggle_wishlist', product_id=product.id) }}" 
+                   class="btn btn-wishlist-detail {% if product.id in session.get('wishlist', []) %}active{% endif %}">
+                    <i class="fa-regular fa-heart"></i> 
+                    {% if product.id in session.get('wishlist', []) %} Remove from Favourites {% else %} Add to Favourites {% endif %}
+                </a>
+            </div>
+
+            <!-- extra info -->
+            <div class="product-extra">
+                <h4>What is offered in this trip:</h4>
+                <ul>
+                    {% for offer in product.offers %}
+                        <li>{{ offer }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

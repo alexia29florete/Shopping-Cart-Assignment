@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block title %}Products · Traveller's Shop{% endblock %}
+
+{% block content %}
+    <div class="products container">
+        <h2 class="text-products">Our Trips & Holidays</h2>
+        <div class="row-products">
+            {% for product in products %}
+            <div class="col-products">
+                <div class="card">
+                    
+                    <!-- Buton inima (wishlist) -->
+                    <a href="{{ url_for('toggle_wishlist', product_id=product.id) }}" class="wishlist-btn {% if product.id in session.get('wishlist', []) %}active{% endif %}">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                    
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}">
+                        <img src="{{ url_for('static', filename='images/' + product.image) }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                    </a>
+                    
+                    <div class="card-body">
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" style="text-decoration: none; color: inherit;">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.info }}</p>
+                        </a>
+                        
+                        <div class="card-separator">
+                            <p class="card-price">{{ product.price }} € <a href="{{ url_for('add_to_cart') }}?id={{ product.id }}" class="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
